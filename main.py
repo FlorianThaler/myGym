@@ -68,7 +68,7 @@ def main():
             processTrainingResults(cumRwdList, lossList)
 
             # ### evaluate training results
-            modelEvaluationFunc_lunarLander(policy)
+            # modelEvaluationFunc_lunarLander(policy)
         elif mode == 'tuning':
             # ### tune hyperparameters by means of optuna package
             study = hyperParamTuningRunnerFunc(algorithm)

@@ -1,9 +1,6 @@
 import warnings
 warnings.simplefilter(action = 'ignore', category = FutureWarning)
 
-import sys
-sys.path.append('../utils')
-
 import numpy as np
 
 import gym
@@ -11,12 +8,17 @@ import gym
 from utils.deepQ import train_deepQ, createModel_deepQ, act_deepQ
 from utils.deepPolicyGradients import createModel_deepPolGrads_reinforce, train_deepPolGrads_reinforce, act_deepPolGrads
 
+from config import SEED_VAL
+
 def createEnv_lunarLander():
 
     env = gym.make('LunarLander-v2')
 
     stateSpaceDim = env.observation_space.shape[0]
     numActions = env.action_space.n
+
+    # seed environment
+    env.seed(SEED_VAL)
 
     return env, stateSpaceDim, numActions
 
@@ -61,7 +63,7 @@ def trainingFunc_lunarLander_deepQ(lr = 1e-3):
     trainingParamDict['updateFreq'] = 2 ** 7
     trainingParamDict['numDraws_expl'] = 2 ** 10
     trainingParamDict['resetFreq_expl'] = 2 ** 6
-    trainingParamDict['numDraws_trng'] = 2 ** 15
+    trainingParamDict['numDraws_trng'] = 2 ** 17
     trainingParamDict['maxNumDrawsPerEpisode'] = 2 ** 8
 
     cumRwdList, lossList = train_deepQ(env, inputGenerationFunc_lunarLander,\

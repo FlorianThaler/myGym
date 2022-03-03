@@ -173,7 +173,7 @@ def train_deepQ(env, inputGenerationFunc, stateSpaceDim, model, target_model, pa
     return cumRwdList, avrgLossList
 
 def optimise_deepQ(inputGenerationFunc, stateSpaceDim, replayMemory, model,\
-                        target_model, batchSize = 2 ** 5, gamma = 0.99):
+                        target_model, batchSize = 2 ** 6, gamma = 0.99):
 
     sampleIdx = random.sample(range(0, len(replayMemory)), batchSize)
 

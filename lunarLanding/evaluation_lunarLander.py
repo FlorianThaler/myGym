@@ -48,4 +48,3 @@ def modelEvaluationFunc_lunarLander(policy, numEvalEpisodes = 2 ** 4):
         totNumDraws += episodeDict['numDrawsUntilDone']
 
     return cumRwd / totNumDraws
-

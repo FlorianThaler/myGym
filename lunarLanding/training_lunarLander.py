@@ -11,18 +11,35 @@ from utils.deepPolicyGradients import createModel_deepPolGrads_reinforce, train_
 from config import SEED_VAL
 
 def createEnv_lunarLander():
+    """
+        this function creates the training environment; additionally the environment's random number
+        generated is seeded.
 
+    Returns:
+        Env: instance of class Env representing the lunar lander environment
+    """
     env = gym.make('LunarLander-v2')
-
     stateSpaceDim = env.observation_space.shape[0]
     numActions = env.action_space.n
 
-    # seed environment
+    # ### seed environment
     env.seed(SEED_VAL)
 
     return env, stateSpaceDim, numActions
 
 def inputGenerationFunc_lunarLander(stateList, stateSpaceDim):
+    """
+        given a list of environment states this function creates by rowwise
+        stacking a 2d numpy array. this kind of data structure is used as input
+        to the neural network
+
+    Args:
+        stateList (list): list of environment states
+        stateSpaceDim (int): dimension of the state space
+
+    Returns:
+        numpy array: 2d array containing the state data
+    """
     numStates = len(stateList)
     retVal = np.zeros((numStates, stateSpaceDim))
 
@@ -32,11 +49,22 @@ def inputGenerationFunc_lunarLander(stateList, stateSpaceDim):
     return retVal
 
 def trainingFunc_lunarLander_deepQ(lr = 1e-3):
+    """
+        this function incorporates the deep Q training of the neural network 
+        which is used to control the lunar lander module
 
-    # create environment
+    Args:
+        lr (float): learning rate of the training procedure. Defaults to 1e-3.
+
+    Returns:
+        Model, function, list, list: the function returns to the caller an instance of the keras class Model, 
+            representing the trained neural network, a function representing the policy obtained by the 
+            learning procedure, the list of obtained cumulative rewards and the list of training losses
+    """
+    # ### create environment
     env, inputDim, outputDim = createEnv_lunarLander()
 
-    # create neural network model using keras
+    # ### create neural network model using keras
     modelParamDict = {}
     modelParamDict['inputDim'] = inputDim
     modelParamDict['outputDim'] = outputDim
@@ -53,7 +81,7 @@ def trainingFunc_lunarLander_deepQ(lr = 1e-3):
                                                                     #   used to compute the target values in the optimisation
                                                                     #   process
 
-    # train model
+    # ### train model
     trainingParamDict = {}
     trainingParamDict['learningRate'] = lr
     trainingParamDict['eps_init'] = 1.0
@@ -73,12 +101,23 @@ def trainingFunc_lunarLander_deepQ(lr = 1e-3):
 
     return model, policy, cumRwdList, lossList
 
-def trainingFunc_lunarLander_deepPolGrads_reinforce():
+def trainingFunc_lunarLander_deepPolGrads_reinforce(lr = 1e-4):
+    """
+        this function incorporates the deep policy gradient training for 
+        the lunar landing controller. 
 
-    # create environment
-    env, inputDim, outputDim = createEmv_lunarLander()
+    Args:
+        lr (float): learning rate of the training procedure. Defaults to 1e-3.
 
-    # create neural network model using keras
+    Returns:
+        Model, function, list, list: the function returns to the caller an instance of the keras class Model, 
+            representing the trained neural network, a function representing the policy obtained by the 
+            learning procedure, the list of obtained cumulative rewards and the list of training losses
+    """#
+    # ### create environment
+    env, inputDim, outputDim = createEnv_lunarLander()
+
+    # ### create neural network model using keras
     modelParamDict = {}
     modelParamDict['inputDim'] = inputDim
     modelParamDict['outputDim'] = outputDim
@@ -89,9 +128,9 @@ def trainingFunc_lunarLander_deepPolGrads_reinforce():
 
     model = createModel_deepPolGrads_reinforce(modelParamDict)
 
-    # train model
+    # ### train model
     trainingParamDict = {}
-    trainingParamDict['learningRate'] = 1e-4
+    trainingParamDict['learningRate'] = lr
     trainingParamDict['numDraws_trng'] = 2 ** 17
     trainingParamDict['maxNumDrawsPerEpisode'] = 2 ** 8
 

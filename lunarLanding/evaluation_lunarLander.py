@@ -3,7 +3,6 @@ import numpy as np
 from lunarLanding.training_lunarLander import createEnv_lunarLander
 
 def simulateFullEpisode_eval(env, policy, maxNumDraws = 2 ** 9):
-
     retValDict = {}
 
     obsList = []
@@ -14,7 +13,6 @@ def simulateFullEpisode_eval(env, policy, maxNumDraws = 2 ** 9):
     obs = env.reset()
 
     for i in range(0, maxNumDraws):
-
         a = policy(obs)
         newObs, r, done, _ = env.step(a)
 
@@ -23,7 +21,6 @@ def simulateFullEpisode_eval(env, policy, maxNumDraws = 2 ** 9):
         rewardList.append(r)
 
         obs = newObs.copy()
-
         if done:
             numDrawsUntilDone = i + 1
             break
@@ -36,7 +33,6 @@ def simulateFullEpisode_eval(env, policy, maxNumDraws = 2 ** 9):
     return retValDict
 
 def modelEvaluationFunc_lunarLander(policy, numEvalEpisodes = 2 ** 4):
-
     # create environment
     env, _, _ = createEnv_lunarLander()
 

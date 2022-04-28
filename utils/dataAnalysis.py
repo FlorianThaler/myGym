@@ -5,8 +5,15 @@ from matplotlib import pyplot as plt
 from optuna.visualization import plot_optimization_history
 
 def processTrainingResults(cumRwdList, lossList):
+    """
+        this function depicts the training results in terms of the cumulative
+        reward and the optimisation losses.
 
-    # compute moving average of cumulative rewards
+    Args:
+        cumRwdList (list): list of cumulative (episodial) rewards
+        lossList (list): list of optimisation losses
+    """
+    # ### compute moving average of cumulative rewards
     n = 2 ** 5
     mvngAvrgList = [np.asarray(cumRwdList[i - n : i]).sum() / n for i in range(n, len(cumRwdList))]
 
@@ -25,7 +32,12 @@ def processTrainingResults(cumRwdList, lossList):
     plt.show()
 
 def processHyperParamTuningResults(study):
+    """
+        this function depicts the results of the optuna hyperparameter tuning process.
 
+    Args:
+        study (Study): instance of optuna class Study
+    """
     for key in study.best_params.keys():
         print('# ### maximiser ({}) = {}'.format(key, study.best_params[key]))
 

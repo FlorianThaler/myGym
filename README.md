@@ -9,3 +9,5 @@ Applying the implemented deep q approach to the lunar landing problem gives the 
 
 ![Evolution of cumulative reward](./lunarLanding/results/evolution_cumRwd.jpg)
 ![Evolution of optimisation losses](./lunarLanding/results/evolution_loss.jpg)
+
+![Optional Text](../master/myGym/lunarLanding/results/evolution_loss.jpg)
